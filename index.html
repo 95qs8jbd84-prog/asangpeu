@@ -706,10 +706,11 @@ function startAudio() {
         clearInterval(fadeInIv); fadeInIv = null;
         clearInterval(fadeOutIv); fadeOutIv = null;
 
-        if (selectedSound === 'white') {
-            sleepAudio.src = './white.mp3';
-        } else if (selectedSound === 'nature') {
+        // 현재 선택된 사운드 값을 확실하게 가져와서 분기 처리 (상대경로 ./ 추가)
+        if (selectedSound === 'nature') {
             sleepAudio.src = './nature.mp3';
+        } else {
+            sleepAudio.src = './white.mp3'; // 기본값은 백색소음
         }
 
         sleepAudio.volume = 0;
@@ -717,7 +718,6 @@ function startAudio() {
         sleepAudio.play()
             .then(() => {
                 let v = 0;
-                // 독립적인 변수를 활용하여 연산 충돌 예방
                 fadeInIv = setInterval(() => {
                     v = Math.min(v + 0.05, 0.5); 
                     sleepAudio.volume = v;
@@ -734,7 +734,7 @@ function startAudio() {
         console.warn("오디오 시작 오류:", e); 
     }
 }
-
+    
 function stopAudio(cb) {
     if (!sleepAudio) { cb && cb(); return; }
     
