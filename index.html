@@ -88,18 +88,57 @@
             padding: clamp(16px, 3vh, 28px) clamp(20px, 5vw, 60px) clamp(12px, 2vh, 20px);
             flex-shrink: 0; position: relative; z-index: 10;
         }
-        .logo { display: flex; align-items: center; gap: 10px; }
-        .moon-icon {
-            width: clamp(26px, 3vw, 34px); height: clamp(26px, 3vw, 34px);
+        .logo { display: flex; align-items: center; gap: 14px; }
+        
+        /* 스케치 감성 픽토그램 타이머 달 로고 */
+        .timer-moon-logo {
+            position: relative;
+            width: clamp(34px, 3.8vw, 44px);
+            height: clamp(34px, 3.8vw, 44px);
+            flex-shrink: 0;
+        }
+        .timer-moon-logo::before {
+            content: ''; position: absolute; inset: 0;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(226, 232, 240, 0.35);
+            mask-image: radial-gradient(circle, transparent 52%, black 53%);
+            -webkit-mask-image: radial-gradient(circle, transparent 52%, black 53%);
+        }
+        .timer-moon-logo .moon-body {
+            position: absolute; inset: 0;
+            border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border-radius: 50%; position: relative; flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(108, 143, 255, 0.25);
         }
-        .moon-icon::after {
+        .timer-moon-logo .moon-body::after {
             content: ''; position: absolute;
-            top: clamp(3px,0.4vw,5px); left: clamp(6px,0.8vw,9px);
-            width: clamp(18px, 2.2vw, 25px); height: clamp(18px, 2.2vw, 25px);
-            background: var(--bg); border-radius: 50%;
+            top: 0px; left: 10px;
+            width: 100%; height: 100%;
+            background: var(--bg);
+            border-radius: 50%;
         }
+        .timer-moon-logo .timer-center {
+            position: absolute;
+            top: 50%; left: 53%;
+            width: 5px; height: 5px;
+            background: #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            box-shadow: 0 0 4px #ffffff;
+        }
+        .timer-moon-logo .timer-hand {
+            position: absolute;
+            top: 50%; left: 53%;
+            width: 40%; height: 2px;
+            background: #ffffff;
+            transform-origin: left center;
+            transform: translate(0, -50%) rotate(-35deg);
+            z-index: 2;
+            border-radius: 4px;
+            box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+        }
+
         .logo h1 {
             font-size: clamp(1rem, 2vw, 1.4rem); font-weight: 700;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
@@ -311,20 +350,18 @@
         }
         @keyframes sTwinkle { from{opacity:.2} to{opacity:.85} }
 
-        .s-moon {
+        .modal-logo-wrap {
+            display: flex; justify-content: center; margin-bottom: 20px;
+        }
+        .modal-logo-wrap .timer-moon-logo {
+            width: 76px; height: 76px;
+        }
+        .modal-logo-wrap .timer-moon-logo .timer-center { width: 7px; height: 7px; }
+        .modal-logo-wrap .timer-moon-logo .timer-hand { height: 2.5px; }
+
+        .s-moon-container {
             position: absolute;
             top: clamp(40px, 6vh, 80px); right: clamp(40px, 6vw, 100px);
-            width: clamp(50px, 7vw, 80px); height: clamp(50px, 7vw, 80px);
-            background: radial-gradient(circle at 40% 40%, #e2e8f0, #94a3b8);
-            border-radius: 50%;
-            box-shadow: 0 0 clamp(20px,3vw,40px) rgba(226,232,240,0.12);
-        }
-        .s-moon::after {
-            content: ''; position: absolute;
-            top: clamp(7px,1vw,11px); left: clamp(12px,1.8vw,18px);
-            width: clamp(38px,5.2vw,60px); height: clamp(38px,5.2vw,60px);
-            background: radial-gradient(circle at 40% 40%, #0e1628, #080d1a);
-            border-radius: 50%;
         }
 
         .s-content {
@@ -381,7 +418,7 @@
             color: rgba(255,255,255,.13); font-size: clamp(0.68rem, 1vw, 0.78rem);
         }
 
-        /* 공통 모달 스타일 (결과창 및 시작 안내창) */
+        /* 모달 레이아웃 공통 */
         .modal-screen {
             display: none; position: fixed; inset: 0;
             background: var(--bg); z-index: 600;
@@ -407,7 +444,6 @@
         }
 
         .modal-inner { position: relative; z-index: 10; width: 100%; max-width: 760px; margin: auto 0; }
-        .modal-emoji { font-size: clamp(2.5rem, 5vw, 4rem); text-align: center; margin-bottom: 8px; }
         .modal-title { font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 700; color: var(--text); text-align: center; margin-bottom: 5px; }
         .modal-sub { font-size: clamp(0.78rem, 1.1vw, 0.9rem); color: var(--sub); text-align: center; margin-bottom: clamp(18px, 3vh, 28px); }
 
@@ -484,7 +520,11 @@
 <div class="app">
     <div class="header">
         <div class="logo">
-            <div class="moon-icon"></div>
+            <div class="timer-moon-logo">
+                <div class="moon-body"></div>
+                <div class="timer-center"></div>
+                <div class="timer-hand"></div>
+            </div>
             <h1>SleepAid</h1>
         </div>
         <div class="tab-nav">
@@ -609,14 +649,19 @@
 <div id="start-notice-screen" class="modal-screen">
     <div class="modal-stars"></div>
     <div class="modal-inner">
-        <div class="modal-emoji">🎧</div>
+        <div class="modal-logo-wrap">
+            <div class="timer-moon-logo">
+                <div class="moon-body"></div>
+                <div class="timer-center"></div>
+                <div class="timer-hand"></div>
+            </div>
+        </div>
         <div class="modal-title">틀기 전 주의사항 안내</div>
         <div class="modal-sub">안전하고 깊은 수면을 위해 확인해 주세요</div>
         <div class="modal-grid">
             <div class="advice-card info">
                 <div class="advice-head"><span class="advice-icon">⚠️</span><span class="advice-title">수면 모드 시작 전 체크리스트</span></div>
                 <ul class="advice-list">
-                    <li><strong>바이노럴 비트는 이어폰(스테레오) 착용이 필수</strong>입니다.</li>
                     <li>고음량 노출 방지를 위해 <strong>기기 볼륨을 아주 낮게 유지</strong>하세요.</li>
                     <li>중간에 잠이 깨지 않도록 <strong>방해금지모드(Do Not Disturb) 설정을 권장</strong>합니다.</li>
                 </ul>
@@ -628,7 +673,13 @@
 
 <div id="sleep-mode">
     <div class="s-stars"></div>
-    <div class="s-moon"></div>
+    <div class="s-moon-container">
+        <div class="timer-moon-logo" style="width:56px; height:56px; opacity: 0.55;">
+            <div class="moon-body"></div>
+            <div class="timer-center"></div>
+            <div class="timer-hand" style="transform: translate(0, -50%) rotate(25deg);"></div>
+        </div>
+    </div>
     <div class="s-content">
         <div class="s-label">수면 모드 진행 중</div>
         <div id="timer-display">00:00:00</div>
@@ -664,7 +715,7 @@ let selectedSound = 'white';
 let showAdvice = true;
 let showStartNotice = true;
 
-/* ── 오디오 객체 고정 생성 및 무한루프 고정 ── */
+/* ── 실제 오디오 객체 무한루프 재생 세팅 (MP3 바인딩) ── */
 const sleepAudio = new Audio();
 sleepAudio.loop = true; 
 
@@ -696,16 +747,16 @@ function showToast(msg) {
     t._t = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-/* ── 오디오 제어 엔진 (버그 수정 완결판) ── */
+/* ── 오디오 제어 엔진 (15초 끊김 버그 차단 루틴) ── */
 let fadeInIv = null;  
 let fadeOutIv = null; 
 
 function startAudio() {
     try {
-        // 기존 실행 중이던 볼륨 타이머가 있다면 즉각 박살내어 충돌 방지
         clearInterval(fadeInIv); fadeInIv = null;
         clearInterval(fadeOutIv); fadeOutIv = null;
 
+        // 사용자님이 변경하신 깃허브 파일명에 100% 매칭
         if (selectedSound === 'white') {
             sleepAudio.src = 'white.mp3';
         } else if (selectedSound === 'nature') {
@@ -717,7 +768,6 @@ function startAudio() {
         sleepAudio.play()
             .then(() => {
                 let v = 0;
-                // 독립적인 변수를 활용하여 연산 충돌 예방
                 fadeInIv = setInterval(() => {
                     v = Math.min(v + 0.05, 0.5); 
                     sleepAudio.volume = v;
@@ -850,8 +900,14 @@ function showResult() {
     const tPct = Math.round(targetSec/maxS*100);
 
     document.getElementById('result-inner').innerHTML = `
-        <div class="result-emoji">${emoji}</div>
-        <div class="result-title">${title}</div>
+        <div class="modal-logo-wrap">
+            <div class="timer-moon-logo">
+                <div class="moon-body"></div>
+                <div class="timer-center"></div>
+                <div class="timer-hand" style="transform: translate(0, -50%) rotate(70deg);"></div>
+            </div>
+        </div>
+        <div class="result-title" style="margin-top:10px;">${title}</div>
         <div class="result-sub">수면 결과를 분석했어요</div>
         <div class="result-grid">
             <div class="compare-card">
