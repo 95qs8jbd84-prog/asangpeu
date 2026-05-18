@@ -707,9 +707,9 @@ function startAudio() {
         clearInterval(fadeOutIv); fadeOutIv = null;
 
         if (selectedSound === 'white') {
-            sleepAudio.src = 'white.mp3';
+            sleepAudio.src = './white.mp3';
         } else if (selectedSound === 'nature') {
-            sleepAudio.src = 'nature.mp3';
+            sleepAudio.src = './nature.mp3';
         }
 
         sleepAudio.volume = 0;
