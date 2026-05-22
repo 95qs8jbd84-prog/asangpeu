@@ -708,9 +708,9 @@ function startAudio() {
 
         // 현재 선택된 사운드 값을 확실하게 가져와서 분기 처리 (상대경로 ./ 추가)
         if (selectedSound === 'nature') {
-            sleepAudio.src = './nature.mp3';
+            sleepAudio.src = './nature.wav';
         } else {
-            sleepAudio.src = './white.mp3'; // 기본값은 백색소음
+            sleepAudio.src = './white.wav'; // 기본값은 백색소음
         }
 
         sleepAudio.volume = 0;
